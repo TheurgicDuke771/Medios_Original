@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         final ArrayList<File> mySongs = findSongs(Environment.getExternalStorageDirectory());
         items = new String[mySongs.size()];
         for (int i = 0; i < mySongs.size(); i++) {
-            toast(mySongs.get(i).getName());
+            //Toast.makeText(getApplicationContext(), mySongs.get(i).getName(), Toast.LENGTH_SHORT).show();
             items[i] = mySongs.get(i).getName().replace(".mp3", "");
         }
 
@@ -82,9 +82,5 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         return al;
-    }
-
-    public void toast(String text) {
-        Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
     }
 }
