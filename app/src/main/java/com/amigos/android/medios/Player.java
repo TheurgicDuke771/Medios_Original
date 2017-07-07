@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 public class Player extends AppCompatActivity implements View.OnClickListener, View.OnLongClickListener, View.OnTouchListener {
     static MediaPlayer mp;
@@ -55,7 +56,7 @@ public class Player extends AppCompatActivity implements View.OnClickListener, V
                     sleep(500);
                     currentPostion = mp.getCurrentPosition();
                     sb.setProgress(currentPostion);
-                    //timer1.setText(currentPostion);
+                    timer1.setText(time(mp.getCurrentPosition()));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -144,12 +145,13 @@ public class Player extends AppCompatActivity implements View.OnClickListener, V
     public void onSongChange() {
         //To change the song title
         songTitle = mySongs.get(position).getName().replace(".mp3", "");
+
         //txt.setText(songTitle);
         setTitle(songTitle);
         sb.setProgress(0);
 
         //To change the total duration
-        //timer2.setText(mp.getDuration());
+        timer2.setText(time(mp.getDuration()));
 
         //To change the album art
         mmr = new MediaMetadataRetriever();
@@ -160,6 +162,18 @@ public class Player extends AppCompatActivity implements View.OnClickListener, V
             sImage.setImageBitmap(bm);
         } else
             sImage.setImageResource(R.drawable.defaultalbumart);
+    }
+
+    /**
+     * This method to calculate song duration and current position in munite format
+     * @param millis takes timeunit in milli second
+     * @return ":" seperaterd strings i.e min:sec
+     */
+    public static String time( int millis ) {
+        long minutes = TimeUnit.MILLISECONDS.toMinutes(millis);
+        millis -= TimeUnit.MINUTES.toMillis(minutes);
+        long seconds = TimeUnit.MILLISECONDS.toSeconds(millis);
+        return String.format("%d:%02d",minutes, seconds);
     }
 
 
