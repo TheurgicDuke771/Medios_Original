@@ -9,7 +9,7 @@ android {
         minSdkVersion 17
         targetSdkVersion 26
         versionCode 1
-        versionName "1.7 alpha"
+        versionName "0.6 beta"
     }
     buildTypes {
         release {
@@ -24,4 +24,5 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:26.+'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'agency.tango.android:material-intro-screen:0.0.5'
 }

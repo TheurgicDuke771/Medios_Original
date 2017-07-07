@@ -17,7 +17,6 @@ import java.io.File;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-    private static final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 0;
     ListView lv;
     String[] items;
 
@@ -26,36 +25,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
 
-        // Here, thisActivity is the current activity
-        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-
-            // Should we show an explanation?
-            //if (ActivityCompat.shouldShowRequestPermissionRationale(this,android.Manifest.permission.READ_EXTERNAL_STORAGE)) {
-
-            // Show an explanation to the user *asynchronously* -- don't block
-            // this thread waiting for the user's response! After the user
-            // sees the explanation, try again to request the permission.
-
-            //} else {
-
-            // No explanation needed, we can request the permission.
-
-            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_READ_CONTACTS);
-
-            // MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE is an
-            // app-defined int constant. The callback method gets the
-            // result of the request.
-            //}
-        }
-
-
         setContentView(R.layout.activity_main);
         lv = (ListView) findViewById(R.id.lvPlaylist);
 
         final ArrayList<File> mySongs = findSongs(Environment.getExternalStorageDirectory());
         items = new String[mySongs.size()];
         for (int i = 0; i < mySongs.size(); i++) {
-            //Toast.makeText(getApplicationContext(), mySongs.get(i).getName(), Toast.LENGTH_SHORT).show();
             items[i] = mySongs.get(i).getName().replace(".mp3", "");
         }
 
