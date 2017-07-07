@@ -59,7 +59,6 @@ public class Player extends AppCompatActivity implements View.OnClickListener, V
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-            //super.run();
         }
     };
 
@@ -102,6 +101,7 @@ public class Player extends AppCompatActivity implements View.OnClickListener, V
 
         if (mp != null) {
             mp.stop();
+            mp.reset();
             mp.release();
         }
 
@@ -110,7 +110,6 @@ public class Player extends AppCompatActivity implements View.OnClickListener, V
         mySongs = (ArrayList) b.getParcelableArrayList("songlist");
         position = b.getInt("pos", 0);
 
-        //txt.setText(getApplicationContext(), txt, Toast.LENGTH_LONG).show();
 
         u = Uri.parse(mySongs.get(position).toString());
         mp = MediaPlayer.create(getApplicationContext(), u);
@@ -181,6 +180,7 @@ public class Player extends AppCompatActivity implements View.OnClickListener, V
                 if (onLongClickSoNoClick)
                     break;
                 mp.stop();
+                mp.reset();
                 mp.release();
                 position = (position + 1) % mySongs.size();
                 u = Uri.parse(mySongs.get(position).toString());
@@ -194,6 +194,7 @@ public class Player extends AppCompatActivity implements View.OnClickListener, V
                 if (onLongClickSoNoClick)
                     break;
                 mp.stop();
+                mp.reset();
                 mp.release();
                 position = (position - 1 < 0) ? mySongs.size() - 1 : position - 1;
                 u = Uri.parse(mySongs.get(position).toString());
@@ -201,10 +202,13 @@ public class Player extends AppCompatActivity implements View.OnClickListener, V
                 mp.start();
                 sb.setMax(mp.getDuration());
                 onSongChange();
+                btPlay.setImageResource(R.drawable.ic_media_pause);
                 break;
         }
         onLongClickSoNoClick = false;
-        updateSeekBar.start();
+        if (updateSeekBar.getState() == Thread.State.NEW) {
+            updateSeekBar.start();
+        }
         mp.setOnCompletionListener(mCompletionListener);
     }
 
