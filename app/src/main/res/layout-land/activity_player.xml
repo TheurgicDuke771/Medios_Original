@@ -19,7 +19,7 @@
         app:layout_constraintRight_toLeftOf="@+id/guideline"
         android:layout_marginRight="0dp"
         android:layout_marginLeft="8dp"
-        app:layout_constraintVertical_bias="0.502"
+        app:layout_constraintVertical_bias="0.5"
         app:layout_constraintLeft_toLeftOf="parent" />
 
     <android.support.constraint.Guideline
@@ -102,9 +102,8 @@
 
             <ImageButton
                 android:id="@+id/btPv"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginTop="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@null"
                 android:scaleType="centerInside"
@@ -113,8 +112,8 @@
 
             <ImageButton
                 android:id="@+id/btPlay"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:layout_weight="1"
@@ -125,9 +124,8 @@
 
             <ImageButton
                 android:id="@+id/btNxt"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginTop="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@null"
                 android:scaleType="centerInside"
