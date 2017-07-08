@@ -82,10 +82,9 @@
 
         <TextView
             android:id="@+id/timer1"
-            android:layout_width="wrap_content"
+            android:layout_width="48dp"
             android:layout_height="wrap_content"
-            android:text="@string/time1"
-            android:textColor="@android:color/black" />
+            android:text="@string/time1" />
 
         <TextView
             android:id="@+id/timer2"
@@ -93,8 +92,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentTop="true"
-            android:text="@string/time2"
-            android:textColor="@android:color/black" />
+            android:text="@string/time2" />
 
     </RelativeLayout>
 
