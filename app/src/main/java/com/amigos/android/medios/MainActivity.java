@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         final ArrayList<File> mySongs = findSongs(Environment.getExternalStorageDirectory());
         items = new String[mySongs.size()];
         for (int i = 0; i < mySongs.size(); i++) {
-            items[i] = mySongs.get(i).getName().replace(".mp3", "");
+            items[i] = mySongs.get(i).getName().replace(".mp3", "").replace(".m4a","").replace(".wav","");
         }
 
         ArrayAdapter<String> adp = new ArrayAdapter<>(getApplicationContext(), R.layout.songs_layout, R.id.textView, items);
@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
             if (singleFile.isDirectory() && !singleFile.isHidden()) {
                 al.addAll(findSongs(singleFile));
             } else {
-                if (singleFile.getName().endsWith(".mp3")) {
+                if (singleFile.getName().endsWith(".mp3")||singleFile.getName().endsWith(".m4a")||singleFile.getName().endsWith(".wav")) {
                     al.add(singleFile);
                 }
             }

@@ -144,7 +144,7 @@ public class Player extends AppCompatActivity implements View.OnClickListener, V
 
     public void onSongChange() {
         //To change the song title
-        songTitle = mySongs.get(position).getName().replace(".mp3", "");
+        songTitle = mySongs.get(position).getName().replace(".mp3", "").replace(".m4a","").replace(".wav","");
 
         //txt.setText(songTitle);
         setTitle(songTitle);
