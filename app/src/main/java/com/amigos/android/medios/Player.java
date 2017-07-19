@@ -1,6 +1,7 @@
 package com.amigos.android.medios;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaMetadataRetriever;
@@ -20,13 +21,14 @@ import android.widget.TextView;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
+import com.amigos.android.medios.data.MediosContract.*;
 
 public class Player extends AppCompatActivity implements View.OnClickListener, View.OnLongClickListener, View.OnTouchListener {
     static MediaPlayer mp;
-    ArrayList<File> mySongs;
-    int position;
-    Uri u;
-    String songTitle;
+    int position, songPathColumnIndex, songTitleColumnIndex;
+    Uri uri;
+    String songTitle, songPath;
+    Cursor cursor;
 
     SeekBar sb;
     ImageButton btPlay, btNxt, btPv;
@@ -68,9 +70,12 @@ public class Player extends AppCompatActivity implements View.OnClickListener, V
         public void onCompletion(MediaPlayer mediaPlayer) {
             mp.stop();
             mp.release();
-            position = (position + 1) % mySongs.size();
-            u = Uri.parse(mySongs.get(position).toString());
-            mp = MediaPlayer.create(getApplicationContext(), u);
+            position = (position + 1) % cursor.getCount();
+            cursor.moveToPosition(position);
+            songPathColumnIndex = cursor.getColumnIndex(MediosEntry.COLUMN_MUSIC_PATH);
+            songPath = cursor.getString(songPathColumnIndex);
+            uri = Uri.parse(songPath);
+            mp = MediaPlayer.create(getApplicationContext(), uri);
             mp.start();
             sb.setMax(mp.getDuration());
             onSongChange();
@@ -107,13 +112,19 @@ public class Player extends AppCompatActivity implements View.OnClickListener, V
         }
 
         Intent i = getIntent();
-        Bundle b = i.getExtras();
-        mySongs = (ArrayList) b.getParcelableArrayList("songlist");
-        position = b.getInt("pos", 0);
+        position = i.getIntExtra("pos", 0);
 
-
-        u = Uri.parse(mySongs.get(position).toString());
-        mp = MediaPlayer.create(getApplicationContext(), u);
+        String[] projection = {
+                MediosEntry._ID,
+                MediosEntry.COLUMN_MUSIC_TITLE,
+                MediosEntry.COLUMN_MUSIC_PATH
+        };
+        cursor = getContentResolver().query(MediosEntry.CONTENT_URI,projection,null,null,null);
+        cursor.moveToPosition(position);
+        songPathColumnIndex = cursor.getColumnIndex(MediosEntry.COLUMN_MUSIC_PATH);
+        songPath = cursor.getString(songPathColumnIndex);
+        uri = Uri.parse(songPath);
+        mp = MediaPlayer.create(getApplicationContext(), uri);
         mp.start();
 
         onSongChange();
@@ -144,24 +155,29 @@ public class Player extends AppCompatActivity implements View.OnClickListener, V
 
     public void onSongChange() {
         //To change the song title
-        songTitle = mySongs.get(position).getName().replace(".mp3", "").replace(".m4a","").replace(".wav","");
-
-        //txt.setText(songTitle);
+        cursor.moveToPosition(position);
+        songTitleColumnIndex = cursor.getColumnIndex(MediosEntry.COLUMN_MUSIC_TITLE);
+        songTitle = cursor.getString(songTitleColumnIndex);
         setTitle(songTitle);
+
         sb.setProgress(0);
 
         //To change the total duration
         timer2.setText(time(mp.getDuration()));
 
         //To change the album art
+        songPathColumnIndex = cursor.getColumnIndex(MediosEntry.COLUMN_MUSIC_PATH);
+        songPath = cursor.getString(songPathColumnIndex);
         mmr = new MediaMetadataRetriever();
-        mmr.setDataSource(mySongs.get(position).getPath());
+        mmr.setDataSource(songPath);
         byte[] artBytes = mmr.getEmbeddedPicture();
         if (artBytes != null) {
             bm = BitmapFactory.decodeByteArray(artBytes, 0, artBytes.length);
             sImage.setImageBitmap(bm);
-        } else
+        }
+        else {
             sImage.setImageResource(R.drawable.defaultalbumart);
+        }
     }
 
     /**
@@ -196,9 +212,12 @@ public class Player extends AppCompatActivity implements View.OnClickListener, V
                 mp.stop();
                 mp.reset();
                 mp.release();
-                position = (position + 1) % mySongs.size();
-                u = Uri.parse(mySongs.get(position).toString());
-                mp = MediaPlayer.create(getApplicationContext(), u);
+                position = (position + 1) % cursor.getCount();
+                cursor.moveToPosition(position);
+                songPathColumnIndex = cursor.getColumnIndex(MediosEntry.COLUMN_MUSIC_PATH);
+                songPath = cursor.getString(songPathColumnIndex);
+                uri = Uri.parse(songPath);
+                mp = MediaPlayer.create(getApplicationContext(), uri);
                 mp.start();
                 sb.setMax(mp.getDuration());
                 onSongChange();
@@ -210,9 +229,12 @@ public class Player extends AppCompatActivity implements View.OnClickListener, V
                 mp.stop();
                 mp.reset();
                 mp.release();
-                position = (position - 1 < 0) ? mySongs.size() - 1 : position - 1;
-                u = Uri.parse(mySongs.get(position).toString());
-                mp = MediaPlayer.create(getApplicationContext(), u);
+                position = (position - 1 < 0) ? cursor.getCount() - 1 : position - 1;
+                cursor.moveToPosition(position);
+                songPathColumnIndex = cursor.getColumnIndex(MediosEntry.COLUMN_MUSIC_PATH);
+                songPath = cursor.getString(songPathColumnIndex);
+                uri = Uri.parse(songPath);
+                mp = MediaPlayer.create(getApplicationContext(), uri);
                 mp.start();
                 sb.setMax(mp.getDuration());
                 onSongChange();

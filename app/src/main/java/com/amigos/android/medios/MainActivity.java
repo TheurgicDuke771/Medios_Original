@@ -60,13 +60,13 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             album[i] = mediaMetadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ALBUM);
         }
 
-        genre = new String[mySongs.size()];
+        /*genre = new String[mySongs.size()];
         for (int i = 0; i < mySongs.size(); i++) {
             mediaMetadataRetriever = new MediaMetadataRetriever();
             mediaMetadataRetriever.setDataSource(mySongs.get(i).getPath());
             // Get the artist name
             genre[i] = mediaMetadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_GENRE);
-        }
+        }*/
 
         ListView mediosListView = (ListView) findViewById(R.id.lvPlaylist);
 
@@ -78,12 +78,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 Intent intent = new Intent(MainActivity.this, Player.class);
 
-                // Form the content URI that represents the specific song that was clicked on,
-                // by appending the "id" (passed as input to this method) onto the {@link MediosEntry#CONTENT_URI}.
-                Uri currentSongUri = ContentUris.withAppendedId(MediosEntry.CONTENT_URI, id);
-
-                // Set the URI on the data field of the intent
-                intent.setData(currentSongUri);
+                //Send the position to the Player activity
+                intent.putExtra("pos", position);
 
                 //Launch the Player activity
                 startActivity(intent);
@@ -119,7 +115,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             values.put(MediosEntry.COLUMN_MUSIC_TITLE, songName[i]);
             values.put(MediosEntry.COLUMN_MUSIC_ARTIST, artist[i]);
             values.put(MediosEntry.COLUMN_MUSIC_ALBUM, album[i]);
-            values.put(MediosEntry.COLUMN_MUSIC_GENRE, genre[i]);
+//            values.put(MediosEntry.COLUMN_MUSIC_GENRE, genre[i]);
             values.put(MediosEntry.COLUMN_MUSIC_PATH, absolutePath[i]);
 
             // Insert a new row into the provider using the ContentResolver.
