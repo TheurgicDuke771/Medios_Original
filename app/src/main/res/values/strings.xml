@@ -3,4 +3,7 @@
     <string name="time1">Time</string>
     <string name="time2">Time</string>
     <string name="albumartdescription">Album Art</string>
+    <string name="unknown_artist">Unknown Artist</string>
+    <string name="song_name">Song Name</string>
+    <string name="artist_name">Artist Name</string>
 </resources>
