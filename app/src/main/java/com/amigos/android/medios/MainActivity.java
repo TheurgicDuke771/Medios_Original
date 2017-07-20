@@ -1,50 +1,41 @@
 package com.amigos.android.medios;
 
 import android.content.Intent;
-import android.media.MediaMetadataRetriever;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.io.File;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     ListView lv;
-    MediaMetadataRetriever mediaMetadataRetriever;
+    String[] items;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
         setContentView(R.layout.activity_main);
+        lv = (ListView) findViewById(R.id.lvPlaylist);
 
         final ArrayList<File> mySongs = findSongs(Environment.getExternalStorageDirectory());
-
-        // Create a list of songs
-        final ArrayList<Song> songs = new ArrayList<Song>();
-        String songName, artistName;
-
-        for (int position = 0; position < mySongs.size(); position++) {
-            // To remove the extensions from filenames
-            songName = mySongs.get(position).getName().replace(".mp3", "").replace(".m4a", "").replace(".wav", "");
-
-            // To set the data source of the MediaMetadataRetriever object
-            mediaMetadataRetriever = new MediaMetadataRetriever();
-            mediaMetadataRetriever.setDataSource(mySongs.get(position).getPath());
-
-            // Get the artist name
-            artistName = mediaMetadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ARTIST);
-
-            // Set data for each item in the list view
-            songs.add(new Song(songName, artistName));
+        items = new String[mySongs.size()];
+        for (int i = 0; i < mySongs.size(); i++) {
+            items[i] = mySongs.get(i).getName().replace(".mp3", "").replace(".m4a","").replace(".wav","");
         }
 
-        SongAdapter adapter = new SongAdapter(this, songs);
-        lv = (ListView) findViewById(R.id.lvPlaylist);
-        lv.setAdapter(adapter);
+        ArrayAdapter<String> adp = new ArrayAdapter<>(getApplicationContext(), R.layout.songs_layout, R.id.textView, items);
+        lv.setAdapter(adp);
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -60,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
             if (singleFile.isDirectory() && !singleFile.isHidden()) {
                 al.addAll(findSongs(singleFile));
             } else {
-                if (singleFile.getName().endsWith(".mp3") || singleFile.getName().endsWith(".m4a") || singleFile.getName().endsWith(".wav")) {
+                if (singleFile.getName().endsWith(".mp3")||singleFile.getName().endsWith(".m4a")||singleFile.getName().endsWith(".wav")) {
                     al.add(singleFile);
                 }
             }
