@@ -11,15 +11,13 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.HapticFeedbackConstants;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
-
-import java.io.File;
-import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 import com.amigos.android.medios.data.MediosContract.*;
 
@@ -87,6 +85,7 @@ public class Player extends AppCompatActivity implements View.OnClickListener, V
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_player);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         btPlay = (ImageButton) findViewById(R.id.btPlay);
         btNxt = (ImageButton) findViewById(R.id.btNxt);
         btPv = (ImageButton) findViewById(R.id.btPv);
@@ -152,6 +151,18 @@ public class Player extends AppCompatActivity implements View.OnClickListener, V
         });
     }
 
+    // Functionality of Back button on Action Bar
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                //Write your logic here
+                this.finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
     public void onSongChange() {
         //To change the song title
