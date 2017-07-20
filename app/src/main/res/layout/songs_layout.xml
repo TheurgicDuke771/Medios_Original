@@ -9,13 +9,19 @@
         android:id="@+id/songName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="1"
         android:text="@string/song_name"
+        android:textColor="@color/textColorPrimary"
         android:textSize="18sp" />
 
     <TextView
         android:id="@+id/artistName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/artist_name" />
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="@string/artist_name"
+        android:textColor="@color/textColorSecondary"/>
 
 </LinearLayout>

@@ -4,6 +4,8 @@
     <color name="colorPrimaryDark">#689f38</color>
     <color name="colorPrimaryLight">#dcedc8</color>
     <color name="colorAccent">#607d8b</color>
+    <color name="textColorPrimary">#212121</color>
+    <color name="textColorSecondary">#757575</color>
 
     <color name="first_slide_background">#8bc34a</color>
     <color name="first_slide_buttons">#8bc34a</color>
